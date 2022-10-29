@@ -1,16 +1,20 @@
-"""import os
+'''import os
 from os import path
 import pylnk3
-
+import time
 #Create a path into "recent" folder
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 
-file_lnk = os.path.join( path_recent , '簡報1.lnk' )
+file_lnk = os.path.join( path_recent , 'some result.lnk' )
 obj = pylnk3.parse( file_lnk )
-print( file_lnk )
-print( str( os.path.basename(obj.path) ) );
+
+file_path = os.path.join( obj._work_dir , os.path.basename( obj.path ) )
+
+timming = os.path.getmtime( file_path )
+print( timming  )
+print( time.ctime( timming ))'''
 #print( )
-"""
+'''
 import os
 from os import path
 import pylnk3
@@ -65,4 +69,59 @@ for lnk_name in os.listdir( path_recent):
     obj_lnk_list_0[ file_path ] = FileLnk( lnk_obj, file_path ) 
     del lnk_obj
 testt = 'C:\\Users\\Hebearo\\Downloads\\2021.12.10_2021.12.30_ main chamber 到 FFS 架設.html'
-print(obj_lnk_list_0[testt].lnk_obj.__dict__)
+print(obj_lnk_list_0[testt].lnk_obj.__dict__)'''
+'''import pylnk3
+class lnkk( pylnk3.Lnk):
+    def __init__(self, f = None):
+        self.link_flags = None
+        self.file = None
+        if type(f) == str or type(f) == str:
+            self.file = f
+            try:
+                f = open(self.file, 'rb')
+            except IOError:
+                self.file += ".lnk"
+                f = open(self.file, 'rb')
+        # defaults
+
+        self.file_size = 0
+        self.icon_index = 0
+        self.hot_key = None
+        self._link_info = None
+        self.description = None
+        self.relative_path = None
+        self.work_dir = None
+        self.arguments = None
+        self.icon = None
+        self.extra_data = None
+        
+        if f is not None:
+            self._parse_lnk_file(f)
+        if self.file:
+            f.close()
+import os
+from os import path
+import pylnk3
+import time
+#Create a path into "recent" folder
+path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
+
+file_lnk = os.path.join( path_recent , 'some result.lnk' )
+obj = lnkk( file_lnk )
+
+file_path = os.path.join( obj._work_dir , os.path.basename( obj.path ) )
+
+timming = os.path.getmtime( file_path )
+'''
+
+from package import FileLnk, HiddenPrints
+import os
+
+path_recent = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
+obj_lnk_list_0 = {}
+
+lnkfile0 = 'GarenaTWLoL_Install_20221004_993mm3fm'
+
+a = FileLnk( lnkfile0 ) 
+
+print( a.file_path )

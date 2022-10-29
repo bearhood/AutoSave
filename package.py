@@ -19,28 +19,41 @@ class HiddenPrints:
 class FileLnk(object):
     def __init__(self , lnk_name ):
         # path is pointed to the path of the file !!!!
+
+        #lnk object will locked the choice of file_...
         self.lnk_name = lnk_name
         self.lnk_obj = None
         self.file_path = None
         self.file_name = None
         self.file_type = None
         self.edit_time_last = None
-        self.set_path_and_lnkobj
-    def set_default( self ):
-        self.set_path_and_lnkobj()
-        self.set_file_info( self.path )
-    def check_if_exist( self ):
-        return os.path.exists('readme.txt')
-    def set_path_and_lnkobj( self ):
-        try:
-            lnk_filepath = os.path.join( path_recent , lnk_name )
-            with HiddenPrints():
-                lnk_obj = pylnk3.parse( lnk_filepath )
-            self.file_path = os.path.join( lnk_obj._work_dir , os.path.basename( lnk_obj.path ) )
-        except: 
-            pass
-            
+
+        suc = self.set_lnkobj( self.lnk_name )
+        if( suc == 0 ):
+            print('break')
+            return None
+        self.set_file_path()
+        self.check_if_file_exist( )
+    def check_if_file_exist( self ):
+        return os.path.exists(self.file_path)
+    def set_file_path( self ):
+        self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
+        pass      
+    def set_lnkobj(self, lnk_file_name):
+
+        with HiddenPrints():
+            lnk_filepath = os.path.join( path_recent , lnk_file_name )
+            self.lnk_obj = pylnk3.parse( lnk_filepath )
+        
+        pass
+
     def set_file_info(self,path):
+        '''
+        #info including:
+        file name
+        file type
+        last edit time
+        '''
         try:
             self.file_name = str( os.path.basename( path ) )
             self.file_type = str( os.path.splitext( path )[-1] )
@@ -54,15 +67,6 @@ class FileLnk(object):
     def get_info(self):
         print( self.__dict__ )
         return self.__dict__
-
-
-obj_lnk_list_0 = {}
-for lnk_name in os.listdir( path_recent):
-
-
-    obj_lnk_list_0[ file_path ] = FileLnk( lnk_obj, file_path ) 
-    del lnk_obj
-
 
 
 '''

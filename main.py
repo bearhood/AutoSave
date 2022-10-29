@@ -4,11 +4,7 @@ import pylnk3
 import time
 import sys
 
-
-
 #Create a path into "recent" folder
-path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
-
 class HiddenPrints:
     def __enter__(self):
         self._original_stdout = sys.stdout
@@ -17,21 +13,37 @@ class HiddenPrints:
         sys.stdout.close()
         sys.stdout = self._original_stdout
 class FileLnk(object):
-    def __init__(self , lnk_obj = None , path = None):
+    def __init__(self , lnk_name ):
         # path is pointed to the path of the file !!!!
-        if( lnk_obj ):
-            self.lnk_obj = lnk_obj
-        if( path ):
-            self.path = path
+        self.lnk_name = lnk_name
+        self.lnk_obj = None
+        self.file_path = None
         self.file_name = None
         self.file_type = None
         self.edit_time_last = None
-        self.set_file_info( path )
-        
+        self.set_path_and_lnkobj
+    def set_default( self ):
+        self.set_path_and_lnkobj()
+        self.set_file_info( self.path )
+    def check_if_exist( self ):
+        return os.path.exists('readme.txt')
+    def set_path_and_lnkobj( self ):
+        try:
+            lnk_filepath = os.path.join( path_recent , lnk_name )
+            with HiddenPrints():
+                lnk_obj = pylnk3.parse( lnk_filepath )
+            self.file_path = os.path.join( lnk_obj._work_dir , os.path.basename( lnk_obj.path ) )
+        except: 
+            pass
+            
     def set_file_info(self,path):
-        self.file_name = str( os.path.basename( path ) )
-        self.file_type = str( os.path.splitext( path )[-1] )
-        self.edit_time_last = self.lnk_obj.modification_time
+        try:
+            self.file_name = str( os.path.basename( path ) )
+            self.file_type = str( os.path.splitext( path )[-1] )
+            self.edit_time_last = time.ctime( os.path.getmtime(  self.path ) )
+            return 1
+        except FileNotFoundError:
+            return 0
         pass
     def get_file_path(self):
         pass
@@ -42,19 +54,14 @@ class FileLnk(object):
 
 obj_lnk_list_0 = {}
 for lnk_name in os.listdir( path_recent):
-    try:
-        lnk_filepath = os.path.join( path_recent , lnk_name )
-        with HiddenPrints():
-            lnk_obj = pylnk3.parse( lnk_filepath )
-        file_path = os.path.join( lnk_obj._work_dir , os.path.basename( lnk_obj.path ) )
-    except: 
-        continue
+
+
     obj_lnk_list_0[ file_path ] = FileLnk( lnk_obj, file_path ) 
     del lnk_obj
 
 
 
-
+'''
 for counts in range( 100 ):
     time.sleep( 1 )
     print( 'now its {} round '.format( counts) )
@@ -69,13 +76,17 @@ for counts in range( 100 ):
                 lnk_obj = pylnk3.parse( lnk_filepath )
             file_path = os.path.join( lnk_obj._work_dir , os.path.basename( lnk_obj.path ) )
             if( file_path in exist_file ):
-                if( lnk_obj.modification_time == obj_lnk_list_0[file_path].edit_time_last):
-                    obj_lnk_list_1[ file_path ] = obj_lnk_list_0[file_path]
+                # 若檔案以存在
+                obj_lnk_list_1[ file_path ] = FileLnk( lnk_obj , file_path)
+                if( obj_lnk_list_1[ file_path ].edit_time_last == obj_lnk_list_0[file_path].edit_time_last):
+                    pass
                 else:
                     #更新檔案
+                    
                     print( file_path )
                     print(lnk_obj.modification_time)
-                    print( (lnk_obj.modification_time-obj_lnk_list_0[file_path].edit_time_last).total_seconds()  )
+                    print( (obj_lnk_list_1[ file_path ].edit_time_last -
+                            obj_lnk_list_0[file_path].edit_time_last).total_seconds()  )
 
                     obj_lnk_list_1[ file_path ] = FileLnk( lnk_obj , file_path ) 
 
@@ -87,7 +98,7 @@ for counts in range( 100 ):
 
             continue
     obj_lnk_list_0 = obj_lnk_list_1    
-        
+'''        
 
 
 #print( obj_lnk_list_0.keys() )
