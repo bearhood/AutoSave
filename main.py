@@ -1,3 +1,11 @@
+"""
+The version has been already abandomed for it's saved for all class into a new python file package.py
+
+Now Let's moveto main_v2
+"""
+
+
+
 import os
 from os import path
 import pylnk3

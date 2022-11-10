@@ -3,7 +3,7 @@ from os import path
 import pylnk3
 import time
 import sys
-
+import struct
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 #Create a path into "recent" folder
 class HiddenPrints:
@@ -27,9 +27,11 @@ class FileLnk(object):
         self.file_name = None
         self.file_type = None
         self.edit_time_last = None
-
+        self.lnk_file_path =None
         suc = self.set_lnkobj( self.lnk_name )
-        
+        if( suc == 0 ):
+            print('fundmental folder')
+            return None
         suc = self.set_file_path()
         if( suc == 0 ):
             print('its no longer exist for the file')
@@ -46,12 +48,17 @@ class FileLnk(object):
             return 0
         pass     
     def remove_lnk( self ):
-        os.remove( self.) 
+        # 要去除的是recent中的捷徑
+        os.remove( self.lnk_file_path  ) 
     def set_lnkobj(self, lnk_file_name):
 
         with HiddenPrints():
-            lnk_filepath = os.path.join( path_recent , lnk_file_name )
-            self.lnk_obj = pylnk3.parse( lnk_filepath )
+            try:
+                self.lnk_file_path = os.path.join( path_recent , lnk_file_name )
+                self.lnk_obj = pylnk3.parse( self.lnk_file_path )
+            except :
+                return 0
+
         
         pass
 

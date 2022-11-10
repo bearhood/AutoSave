@@ -3,13 +3,27 @@ import os
 
 path_recent = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 obj_lnk_list_0 = {}
+exception_list = ["AutomaticDestinations" ,
+                  "CustomDestinations",
+]
+# 完成迴圈校正
 
-lnkfile0 = 
-obj_lnk_list_0[ file_path ] = FileLnk( lnk_name ) 
+
+for lnk_name in os.listdir( path_recent):
+    print(lnk_name)
+    if( lnk_name not in exception_list
+        and 
+        lnk_name.split('.')[-1] == 'lnk' ):
+        temp = FileLnk( lnk_name ) 
+        if( temp == None):
+            print( 'nono')
+        else:   
+            obj_lnk_list_0[ temp.file_path ] = temp
+
 
 print( obj_lnk_list_0 )
 
-
+##
 '''
 for counts in range( 100 ):
     time.sleep( 1 )
