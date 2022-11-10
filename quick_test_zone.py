@@ -120,7 +120,7 @@ import os
 path_recent = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 obj_lnk_list_0 = {}
 
-lnkfile0 = 'GarenaTWLoL_Install_20221004_993mm3fm'
+lnkfile0 = 'some result'
 
 a = FileLnk( lnkfile0 ) 
 

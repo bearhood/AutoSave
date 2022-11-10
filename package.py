@@ -19,7 +19,7 @@ class HiddenPrints:
 class FileLnk(object):
     def __init__(self , lnk_name ):
         # path is pointed to the path of the file !!!!
-
+        # lnk_name 只代表在 recent
         #lnk object will locked the choice of file_...
         self.lnk_name = lnk_name
         self.lnk_obj = None
@@ -29,16 +29,24 @@ class FileLnk(object):
         self.edit_time_last = None
 
         suc = self.set_lnkobj( self.lnk_name )
+        
+        suc = self.set_file_path()
         if( suc == 0 ):
-            print('break')
+            print('its no longer exist for the file')
+            # 刪除該捷徑
+            self.remove_lnk()
             return None
-        self.set_file_path()
-        self.check_if_file_exist( )
-    def check_if_file_exist( self ):
-        return os.path.exists(self.file_path)
+        #self.check_if_file_exist( )
     def set_file_path( self ):
-        self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
-        pass      
+        try:
+            self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
+            return 1
+        except TypeError:
+            # if the file is not exist anymore
+            return 0
+        pass     
+    def remove_lnk( self ):
+        os.remove( self.) 
     def set_lnkobj(self, lnk_file_name):
 
         with HiddenPrints():
