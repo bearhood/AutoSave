@@ -124,4 +124,4 @@ lnkfile0 = 'some result'
 
 a = FileLnk( lnkfile0 ) 
 
-print( a.file_path )
+print( a.file_path )    
