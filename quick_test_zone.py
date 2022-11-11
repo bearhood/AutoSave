@@ -1,3 +1,6 @@
+a = {'1':6 , '2':10}
+for path in a.keys():
+    print(path)
 '''import os
 from os import path
 import pylnk3
@@ -114,7 +117,7 @@ file_path = os.path.join( obj._work_dir , os.path.basename( obj.path ) )
 timming = os.path.getmtime( file_path )
 '''
 
-from package import FileLnk, HiddenPrints
+'''from package import FileLnk, HiddenPrints
 import os
 
 path_recent = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
@@ -124,4 +127,4 @@ lnkfile0 = 'some result'
 
 a = FileLnk( lnkfile0 ) 
 
-print( a.file_path )    
+print( a.file_path )   ''' 

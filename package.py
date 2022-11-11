@@ -15,16 +15,29 @@ class HiddenPrints:
         sys.stdout = self._original_stdout
 class FileLnk_dict(object):
     def __init__(self ):
-
+        self.deled = []
         self.obj_lnk_list_0 = {}
         self.exception_list = ["AutomaticDestinations" ,
-                  "CustomDestinations",
-                    ] 
+                  "CustomDestinations",] 
+        self.create_dict()
+    def update_about_time(self):
+        """This function will determine when did the file
+         last edited"""
+        
+        for path in self.obj_lnk_list_0.keys():
+            suc = self.obj_lnk_list_0[path].check_time()
+            if( suc==1 ):
+                print( path )
+            elif(suc==-1):
+                self.deled.append(path)
+            
+        for path in self.deled:
+            del self.obj_lnk_list_0[path]
+        self.deled = []
+    def compare2file(self):
         pass
-        self.update()
-    def update(self):
+    def create_dict(self):
         for lnk_name in os.listdir( path_recent):
-            print(lnk_name)
             if( lnk_name not in self.exception_list
                 and 
                 lnk_name.split('.')[-1] == 'lnk' ):
@@ -33,7 +46,6 @@ class FileLnk_dict(object):
                     print( 'nono')
                 else:   
                     self.obj_lnk_list_0[ temp.file_path ] = temp
-        print( self.obj_lnk_list_0 )
         pass
 
 
@@ -59,6 +71,12 @@ class FileLnk(object):
             # 刪除該捷徑
             self.remove_lnk()
             return None
+        suc = self.set_file_info()
+        if( suc == 0 ):
+            print('its no longer exist for the file')
+            # 刪除該捷徑
+            self.remove_lnk()
+            return None
         #self.check_if_file_exist( )
     def set_file_path( self ):
         try:
@@ -79,23 +97,24 @@ class FileLnk(object):
                 self.lnk_obj = pylnk3.parse( self.lnk_file_path )
             except :
                 return 0
-
-        
         pass
 
-    def set_file_info(self,path):
+    def set_file_info(self):
         '''
         #info including:
         file name
         file type
         last edit time
         '''
+        path = self.file_path
         try:
             self.file_name = str( os.path.basename( path ) )
             self.file_type = str( os.path.splitext( path )[-1] )
-            self.edit_time_last = time.ctime( os.path.getmtime(  self.path ) )
+            self.edit_time_last = time.ctime( os.path.getmtime(  self.file_path ) )
+            
             return 1
-        except FileNotFoundError:
+        except:
+            print( 'deled')
             return 0
         pass
     def get_file_path(self):
@@ -103,8 +122,21 @@ class FileLnk(object):
     def get_info(self):
         print( self.__dict__ )
         return self.__dict__
-
-
+    def check_time(self):
+        
+        try:
+            
+            temp_time = time.ctime( os.path.getmtime(  self.file_path ) )
+            if( temp_time != self.edit_time_last ):
+                print( self.edit_time_last )
+                print(temp_time)
+                self.edit_time_last = temp_time
+                return 1 # if it's edited
+            else:
+                
+                return 0
+        except :
+            return -1
 '''
 for counts in range( 100 ):
     time.sleep( 1 )
