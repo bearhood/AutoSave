@@ -13,7 +13,28 @@ class HiddenPrints:
     def __exit__(self, exc_type, exc_val, exc_tb):
         sys.stdout.close()
         sys.stdout = self._original_stdout
+class FileLnk_dict(object):
+    def __init__(self ):
 
+        self.obj_lnk_list_0 = {}
+        self.exception_list = ["AutomaticDestinations" ,
+                  "CustomDestinations",
+                    ] 
+        pass
+        self.update()
+    def update(self):
+        for lnk_name in os.listdir( path_recent):
+            print(lnk_name)
+            if( lnk_name not in self.exception_list
+                and 
+                lnk_name.split('.')[-1] == 'lnk' ):
+                temp = FileLnk( lnk_name ) 
+                if( temp == None):
+                    print( 'nono')
+                else:   
+                    self.obj_lnk_list_0[ temp.file_path ] = temp
+        print( self.obj_lnk_list_0 )
+        pass
 
 
 class FileLnk(object):

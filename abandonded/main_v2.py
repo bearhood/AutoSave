@@ -1,3 +1,8 @@
+"""
+The version has been already abandomed for it's saved for all class into a new python file package.py
+
+Now Let's moveto main_v3
+"""
 from package import FileLnk, HiddenPrints
 import os
 
@@ -5,7 +10,8 @@ path_recent = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 obj_lnk_list_0 = {}
 exception_list = ["AutomaticDestinations" ,
                   "CustomDestinations",
-]
+] 
+
 # 完成迴圈校正
 
 
@@ -19,8 +25,6 @@ for lnk_name in os.listdir( path_recent):
             print( 'nono')
         else:   
             obj_lnk_list_0[ temp.file_path ] = temp
-
-
 print( obj_lnk_list_0 )
 
 ##
