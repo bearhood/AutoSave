@@ -14,14 +14,17 @@ class HiddenPrints:
         sys.stdout.close()
         sys.stdout = self._original_stdout
 class FileLnk_dict(object):
-    def __init__(self ):
+    def __init__(self,data_type = ['0'] ):
+        '''The variable tells which to backup'''
+        self.data_type = data_type
         self.deled = []
         self.obj_lnk_list_0 = {}
         self.exception_list = ["AutomaticDestinations" ,
                   "CustomDestinations",] 
         self.create_dict()
     def set_backup_of_file(self):
-        os
+        '''shutil.copyfile( './README.MD',
+                 './backup_folder/read.md')'''
         pass
     def update_about_time(self):
         """This function will determine when did the file
@@ -30,10 +33,9 @@ class FileLnk_dict(object):
             suc = self.obj_lnk_list_0[path].check_time()
             if( suc==1 ):
                 print( path )
-                self
+                self.set_backup_of_file()
             elif(suc==-1):
                 self.deled.append(path)
-            
         for path in self.deled:
             del self.obj_lnk_list_0[path]
         self.deled = []
@@ -47,8 +49,11 @@ class FileLnk_dict(object):
                 temp = FileLnk( lnk_name ) 
                 if( temp == None):
                     print( 'nono')
-                else:   
+                elif(temp.file_type in self.data_type):  
+                    print(temp.file_path)
                     self.obj_lnk_list_0[ temp.file_path ] = temp
+                else:
+                    print(temp.file_type) 
         pass
 
 

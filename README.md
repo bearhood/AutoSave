@@ -20,3 +20,7 @@
 部份在 FileLnk 裡面加入的 try except 是要阻止：
     a. 有 Windows 內建的檔案或資料夾掉入
     b. 檔案已不存在或其他東西
+
+下午16：00
+1. 建立 backup_folder, 並已經用 gitignore 忽略以後存入的檔案
+2. 下一步要開始注意神抹檔案要存神抹不要。
