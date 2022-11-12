@@ -20,14 +20,17 @@ class FileLnk_dict(object):
         self.exception_list = ["AutomaticDestinations" ,
                   "CustomDestinations",] 
         self.create_dict()
+    def set_backup_of_file(self):
+        os
+        pass
     def update_about_time(self):
         """This function will determine when did the file
          last edited"""
-        
         for path in self.obj_lnk_list_0.keys():
             suc = self.obj_lnk_list_0[path].check_time()
             if( suc==1 ):
                 print( path )
+                self
             elif(suc==-1):
                 self.deled.append(path)
             

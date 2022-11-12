@@ -1,6 +1,13 @@
-a = {'1':6 , '2':10}
+import shutil
+
+
+shutil.copyfile( './README.MD',
+                 '')
+
+
+'''a = {'1':6 , '2':10}
 for path in a.keys():
-    print(path)
+    print(path)'''
 '''import os
 from os import path
 import pylnk3
