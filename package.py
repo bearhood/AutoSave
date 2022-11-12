@@ -4,6 +4,7 @@ import pylnk3
 import time
 import sys
 import struct
+import shutil
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 #Create a path into "recent" folder
 class HiddenPrints:
@@ -22,9 +23,27 @@ class FileLnk_dict(object):
         self.exception_list = ["AutomaticDestinations" ,
                   "CustomDestinations",] 
         self.create_dict()
-    def set_backup_of_file(self):
-        '''shutil.copyfile( './README.MD',
-                 './backup_folder/read.md')'''
+    def set_backup_of_file(self,FileLnk='ww'):
+        path = FileLnk.file_path
+        target_path = ('./backup_folder/'+
+                 FileLnk.file_name.split('.')[0]+
+                 '/backed_'+ 
+                 FileLnk.file_name)
+        try:
+            shutil.copyfile(path, target_path)
+            with open(os.path.dirname(target_path)+
+                        '/info.txt', 'w',
+                        encoding='utf-8-sig') as data:
+                data.write(path+'\n')
+                data.write(str(FileLnk.edit_time_last))
+        except IOError as io_err:
+            os.makedirs(os.path.dirname(target_path))
+            shutil.copyfile(path, target_path)
+            with open(os.path.dirname(target_path)+
+                        '/info.txt', 'w',
+                        encoding='utf-8-sig') as data:
+                data.write(path+'\n')
+                data.write(str(FileLnk.edit_time_last))
         pass
     def update_about_time(self):
         """This function will determine when did the file
@@ -32,15 +51,13 @@ class FileLnk_dict(object):
         for path in self.obj_lnk_list_0.keys():
             suc = self.obj_lnk_list_0[path].check_time()
             if( suc==1 ):
-                print( path )
-                self.set_backup_of_file()
+                self.set_backup_of_file( self.obj_lnk_list_0[path] )
             elif(suc==-1):
                 self.deled.append(path)
         for path in self.deled:
             del self.obj_lnk_list_0[path]
         self.deled = []
-    def compare2file(self):
-        pass
+
     def create_dict(self):
         for lnk_name in os.listdir( path_recent):
             if( lnk_name not in self.exception_list
@@ -50,10 +67,10 @@ class FileLnk_dict(object):
                 if( temp == None):
                     print( 'nono')
                 elif(temp.file_type in self.data_type):  
-                    print(temp.file_path)
+                    
                     self.obj_lnk_list_0[ temp.file_path ] = temp
                 else:
-                    print(temp.file_type) 
+                    pass
         pass
 
 
@@ -71,24 +88,23 @@ class FileLnk(object):
         self.lnk_file_path =None
         suc = self.set_lnkobj( self.lnk_name )
         if( suc == 0 ):
-            print('fundmental folder')
             return None
         suc = self.set_file_path()
         if( suc == 0 ):
-            print('its no longer exist for the file')
             # 刪除該捷徑
-            self.remove_lnk()
             return None
         suc = self.set_file_info()
         if( suc == 0 ):
-            print('its no longer exist for the file')
+            print(self.file_path)
             # 刪除該捷徑
-            self.remove_lnk()
             return None
         #self.check_if_file_exist( )
     def set_file_path( self ):
         try:
             self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
+            if(self.lnk_obj._work_dir == 
+                os.path.dirname('./backup_folder/.Readme.md')):
+                raise OSError
             return 1
         except TypeError:
             # if the file is not exist anymore
@@ -122,18 +138,14 @@ class FileLnk(object):
             
             return 1
         except:
-            print( 'deled')
             return 0
         pass
     def get_file_path(self):
         pass
     def get_info(self):
-        print( self.__dict__ )
         return self.__dict__
     def check_time(self):
-        
         try:
-            
             temp_time = time.ctime( os.path.getmtime(  self.file_path ) )
             if( temp_time != self.edit_time_last ):
                 print( self.edit_time_last )
@@ -141,7 +153,6 @@ class FileLnk(object):
                 self.edit_time_last = temp_time
                 return 1 # if it's edited
             else:
-                
                 return 0
         except :
             return -1
