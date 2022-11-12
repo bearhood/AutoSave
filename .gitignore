@@ -130,4 +130,4 @@ dmypy.json
 .pyre/
 #my self
 
-backup/
+backup_folder/.
