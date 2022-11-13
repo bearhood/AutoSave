@@ -15,7 +15,8 @@ class HiddenPrints:
         sys.stdout.close()
         sys.stdout = self._original_stdout
 class FileLnk_dict(object):
-    def __init__(self,data_type = ['0'] ):
+    def __init__(self,data_type = {'type':['0'],
+                                   'name':[ ]   } ):
         '''The variable tells which to backup'''
         self.data_type = data_type
         self.deled = []
@@ -32,10 +33,10 @@ class FileLnk_dict(object):
         try:
             shutil.copyfile(path, target_path)
             with open(os.path.dirname(target_path)+
-                        '/info.txt', 'w',
+                        '/info.txt', 'a+',
                         encoding='utf-8-sig') as data:
-                data.write(path+'\n')
-                data.write(str(FileLnk.edit_time_last))
+                print( data.readline() )
+                data.write('\n'+str(FileLnk.edit_time_last)+'\n')
         except IOError as io_err:
             os.makedirs(os.path.dirname(target_path))
             shutil.copyfile(path, target_path)
@@ -66,8 +67,9 @@ class FileLnk_dict(object):
                 temp = FileLnk( lnk_name ) 
                 if( temp == None):
                     print( 'nono')
-                elif(temp.file_type in self.data_type):  
-                    
+                elif(temp.file_type in self.data_type['type']):  
+                    self.obj_lnk_list_0[ temp.file_path ] = temp
+                elif(temp.file_name in self.data_type['name'] ):
                     self.obj_lnk_list_0[ temp.file_path ] = temp
                 else:
                     pass
