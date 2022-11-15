@@ -2,11 +2,19 @@ from package import FileLnk, HiddenPrints,FileLnk_dict
 import os
 import time
 import threading
-data_type = ['.pptx']
+
+#data_type is related to whether to record history
+#or just replace with the one
+
+'''
+'hist' is to save every time saving: ex.small item
+'repl' is just replace the already backup one ex.large item
+'''
 data_type = {
-    'type':['.pptx'],
-    'name':['筆記 2022年10月19日.pdf'],
-    'path':[' ']
+    'type':{'.pptx':'hist',
+            '.png':'repl'},
+    'name':{'null':'repl'},
+    'path':{'null':'repl'}
     
 }
 '''
@@ -24,3 +32,4 @@ try:
 except KeyboardInterrupt:
     print( 'ending accepted')
     print( 'the end')
+    

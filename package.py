@@ -15,7 +15,7 @@ class HiddenPrints:
         sys.stdout.close()
         sys.stdout = self._original_stdout
 class FileLnk_dict(object):
-    def __init__(self,data_type = {'type':['0'],
+    def __init__(self,data_type = {'type':{'0':'repl'},
                                    'name':[ ]   } ):
         '''The variable tells which to backup'''
         self.data_type = data_type
@@ -26,22 +26,29 @@ class FileLnk_dict(object):
         self.create_dict()
     def set_backup_of_file(self,FileLnk='ww'):
         path = FileLnk.file_path
-        target_path = ('./backup_folder/'+
-                 FileLnk.file_name.split('.')[0]+
-                 '/backed_'+ 
-                 FileLnk.file_name)
+        if( FileLnk.saving_format == 'hist'):
+            target_path = ('./backup_folder/'+
+                    FileLnk.file_name.split('.')[0]+
+                    '/backed_by'+ 
+                    str(FileLnk.edit_time_last).replace(':','_').replace(' ','_')+
+                    '__'+
+                    FileLnk.file_name)
+        elif( FileLnk.saving_format=='repl'):
+            target_path = ('./backup_folder/'+
+                    FileLnk.file_name.split('.')[0]+
+                    '/backed_'+
+                    FileLnk.file_name)     
+        info_path = (os.path.dirname(target_path) +
+                '/info_'+FileLnk.file_name.split('.')[0]+'.txt')
         try:
             shutil.copyfile(path, target_path)
-            with open(os.path.dirname(target_path)+
-                        '/info.txt', 'a+',
+            with open(info_path, 'a+',
                         encoding='utf-8-sig') as data:
-                print( data.readline() )
                 data.write('\n'+str(FileLnk.edit_time_last)+'\n')
         except IOError as io_err:
             os.makedirs(os.path.dirname(target_path))
             shutil.copyfile(path, target_path)
-            with open(os.path.dirname(target_path)+
-                        '/info.txt', 'w',
+            with open(info_path, 'w',
                         encoding='utf-8-sig') as data:
                 data.write(path+'\n')
                 data.write(str(FileLnk.edit_time_last))
@@ -52,7 +59,8 @@ class FileLnk_dict(object):
         for path in self.obj_lnk_list_0.keys():
             suc = self.obj_lnk_list_0[path].check_time()
             if( suc==1 ):
-                self.set_backup_of_file( self.obj_lnk_list_0[path] )
+                self.set_backup_of_file( self.obj_lnk_list_0[path]
+                                        , )
             elif(suc==-1):
                 self.deled.append(path)
         for path in self.deled:
@@ -67,9 +75,11 @@ class FileLnk_dict(object):
                 temp = FileLnk( lnk_name ) 
                 if( temp == None):
                     print( 'nono')
-                elif(temp.file_type in self.data_type['type']):  
+                elif(temp.file_type in list(self.data_type['type'].keys())):
+                    temp.set_saving_format(self.data_type['type'][ temp.file_type])  
                     self.obj_lnk_list_0[ temp.file_path ] = temp
-                elif(temp.file_name in self.data_type['name'] ):
+                elif(temp.file_name in list(self.data_type['name'].keys()) ):
+                    temp.set_saving_format(self.data_type['name'][ temp.file_name])  
                     self.obj_lnk_list_0[ temp.file_path ] = temp
                 else:
                     pass
@@ -88,6 +98,7 @@ class FileLnk(object):
         self.file_type = None
         self.edit_time_last = None
         self.lnk_file_path =None
+        self.saving_format = None
         suc = self.set_lnkobj( self.lnk_name )
         if( suc == 0 ):
             return None
@@ -97,10 +108,11 @@ class FileLnk(object):
             return None
         suc = self.set_file_info()
         if( suc == 0 ):
-            print(self.file_path)
             # 刪除該捷徑
             return None
         #self.check_if_file_exist( )
+    def set_saving_format(self,text):
+        self.saving_format = text
     def set_file_path( self ):
         try:
             self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
@@ -150,6 +162,7 @@ class FileLnk(object):
         try:
             temp_time = time.ctime( os.path.getmtime(  self.file_path ) )
             if( temp_time != self.edit_time_last ):
+                print(self.file_path)
                 print( self.edit_time_last )
                 print(temp_time)
                 self.edit_time_last = temp_time
