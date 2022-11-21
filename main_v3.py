@@ -17,8 +17,7 @@ data_type = {
     'path':{'null':'repl'}
     
 }
-saving_dir = './backup_folder/'
-saving_dir = 'C:/Users/Hebearo/OneDrive/backup/'
+
 
 
 '''
