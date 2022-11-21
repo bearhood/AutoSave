@@ -11,8 +11,6 @@ global saving_dir
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 #Create a path into "recent" folder
 
-saving_dir = './backup_folder/'
-saving_dir = 'C:/Users/Hebearo/OneDrive/backup/'
 class HiddenPrints:
     def __enter__(self):
         self._original_stdout = sys.stdout
