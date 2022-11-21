@@ -1,6 +1,14 @@
 # AutoSave
 
+#使用方法
+1. 安裝requirements.txt 裡面的東西
+2. 更改 coefficient 裡面的部份參數
+3. run main_v3.py
 
+
+
+------
+# 以下為一些進度紀錄
 2022/11/11
 1. 嘗試開始現正恢復所有時間序列監聽 main_v2.py （未完成）
 2. 完成掃描資料夾 （Package.py , main_v2)
