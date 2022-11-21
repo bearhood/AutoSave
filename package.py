@@ -121,9 +121,9 @@ class FileLnk(object):
     def set_file_path( self ):
         try:
             self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
-            if(self.lnk_obj._work_dir == 
-                os.path.dirname( saving_dir + '.Readme.md')):
-                raise OSError
+            if( saving_dir.replace('\\','/') in
+             self.lnk_obj._work_dir.replace('\\','/')        ):
+                raise TypeError
             return 1
         except TypeError:
             # if the file is not exist anymore

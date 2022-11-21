@@ -26,6 +26,8 @@ data_type = {
     'type':['.pptx'],
     'name':['筆記 2022年10月19日.pdf']}
     '''
+os.startfile( saving_dir )
+print( 'start working in '+ saving_dir)
 from package import *
 try:
     while(1):
