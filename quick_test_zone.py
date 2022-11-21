@@ -2,7 +2,7 @@ import os
 a = 'C:\\Users\\Hebearo\\OneDrive\\backup\\experimental book\\backed_experimental book.pptx'
 b = 'C:/Users/Hebearo/OneDrive/backup/'
 print( b.replace('\\','/') in a.replace('\\','/') )
-#123
+#123asd
 '''a = {'1':6 , '2':10}
 for path in a.keys():
     print(path)'''
