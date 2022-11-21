@@ -11,12 +11,16 @@ import threading
 'repl' is just replace the already backup one ex.large item
 '''
 data_type = {
-    'type':{'.pptx':'hist',
-            '.png':'repl'},
+    'type':{'.pptx':'repl',
+            '.png':'hist'},
     'name':{'null':'repl'},
     'path':{'null':'repl'}
     
 }
+saving_dir = './backup_folder/'
+saving_dir = 'C:/Users/Hebearo/OneDrive/backup/'
+
+
 '''
 example:
 data_type = {
