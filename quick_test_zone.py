@@ -1,10 +1,8 @@
-import shutil
-import datetime
-
-a= {'123':222}
-print(list(a.keys()))
-
-#123
+import os
+a = 'C:\\Users\\Hebearo\\OneDrive\\backup\\experimental book\\backed_experimental book.pptx'
+b = 'C:/Users/Hebearo/OneDrive/backup/'
+print( b.replace('\\','/') in a.replace('\\','/') )
+#123asdddd
 '''a = {'1':6 , '2':10}
 for path in a.keys():
     print(path)'''

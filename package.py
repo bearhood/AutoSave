@@ -5,8 +5,12 @@ import time
 import sys
 import struct
 import shutil
+from __main__ import *
+
+global saving_dir
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 #Create a path into "recent" folder
+
 class HiddenPrints:
     def __enter__(self):
         self._original_stdout = sys.stdout
@@ -18,6 +22,7 @@ class FileLnk_dict(object):
     def __init__(self,data_type = {'type':{'0':'repl'},
                                    'name':[ ]   } ):
         '''The variable tells which to backup'''
+        global saving_dir
         self.data_type = data_type
         self.deled = []
         self.obj_lnk_list_0 = {}
@@ -27,14 +32,14 @@ class FileLnk_dict(object):
     def set_backup_of_file(self,FileLnk='ww'):
         path = FileLnk.file_path
         if( FileLnk.saving_format == 'hist'):
-            target_path = ('./backup_folder/'+
+            target_path = ( saving_dir+
                     FileLnk.file_name.split('.')[0]+
                     '/backed_by'+ 
                     str(FileLnk.edit_time_last).replace(':','_').replace(' ','_')+
                     '__'+
                     FileLnk.file_name)
         elif( FileLnk.saving_format=='repl'):
-            target_path = ('./backup_folder/'+
+            target_path = ( saving_dir+
                     FileLnk.file_name.split('.')[0]+
                     '/backed_'+
                     FileLnk.file_name)     
@@ -116,9 +121,9 @@ class FileLnk(object):
     def set_file_path( self ):
         try:
             self.file_path = os.path.join( self.lnk_obj._work_dir , os.path.basename( self.lnk_obj.path ) )
-            if(self.lnk_obj._work_dir == 
-                os.path.dirname('./backup_folder/.Readme.md')):
-                raise OSError
+            if( saving_dir.replace('\\','/') in
+             self.lnk_obj._work_dir.replace('\\','/')        ):
+                raise TypeError
             return 1
         except TypeError:
             # if the file is not exist anymore
