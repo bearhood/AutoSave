@@ -11,8 +11,11 @@ import threading
 'repl' is just replace the already backup one ex.large item
 '''
 data_type = {
-    'type':{'.pptx':'hist',
-            '.png':'repl'},
+    'type':{'.pptx':'repl',
+            '.png':'repl',
+            '.xmcd':'hist',
+            '.m':'hist',
+            '.opj':'hist'},
     'name':{'null':'repl'},
     'path':{'null':'repl'}
     
