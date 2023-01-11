@@ -3,12 +3,13 @@
 saving_dir = 'C:/Users/Hebearo/OneDrive/backup/'
 data_type = {
     'type':{'.pptx':'repl',
-            '.png':'hist'},
+            '.png':'hist' ,
+            '.db':'hist'},
     'name':{'null':'repl'},
     'path':{'null':'repl'}
     
 }
-
+time_itv = 3
 
 '''
 example:

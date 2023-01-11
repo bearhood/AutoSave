@@ -15,8 +15,9 @@ try:
     while(1):
         obj =  FileLnk_dict( data_type= data_type )
         for i in range(10):
-            time.sleep(1)
+            time.sleep(time_itv)
             obj.update_about_time()
+        del obj
 except KeyboardInterrupt:
     print( 'ending accepted')
     print( 'the end')

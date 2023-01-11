@@ -7,7 +7,6 @@ import struct
 import shutil
 from __main__ import *
 
-global saving_dir
 path_recent = path.expandvars(r'%APPDATA%\Microsoft\Windows\Recent')
 #Create a path into "recent" folder
 
